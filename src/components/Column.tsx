@@ -1,5 +1,4 @@
 import Task from "./Task";
-import Typography from "./shared/Typography";
 import { CSS } from "@dnd-kit/utilities";
 import {
   useSortable,
@@ -11,6 +10,8 @@ import { toDndId } from "@/lib/dnd";
 import { useDroppable } from "@dnd-kit/core";
 import Button from "./shared/Button";
 import { GripIcon, PlusIcon } from "lucide-react";
+import EditableTypography from "./shared/EditableTypography";
+import { useProjectContext } from "@/context/useProjectContext";
 
 type ColumnProps = {
   col: IColumn;
@@ -20,8 +21,15 @@ const Column = ({ col }: ColumnProps) => {
   const { setNodeRef: setDroppableRef } = useDroppable({
     id: toDndId(col.id, "taskContainer"),
   });
+  const { setCols } = useProjectContext();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: toDndId(col.id, "col") });
+
+  const onChange = (val: string) => {
+    setCols((prev) =>
+      prev.map((c) => (c.id === col.id ? { ...c, title: val } : c))
+    );
+  };
 
   const style = {
     transform: CSS.Translate.toString(transform),
@@ -45,7 +53,15 @@ const Column = ({ col }: ColumnProps) => {
         >
           <GripIcon className="size-4" />
         </button>
-        <Typography variant="h5">{col.title}</Typography>
+        <EditableTypography
+          placeholder="Column Title..."
+          className="w-full"
+          onChange={onChange}
+          value={col.title}
+          variant="h5"
+          type="text"
+          withBorder
+        />
       </div>
       <div
         ref={setDroppableRef}

@@ -1,17 +1,8 @@
-import { cn } from "@/lib/cn";
+import { TypographyVariants } from "@/constants/typography.variant";
 import { type ReactNode } from "react";
+import { cn } from "@/lib/cn";
 
-const TypographyVariants = {
-  h1: "text-4xl font-bold",
-  h2: "text-3xl font-semibold",
-  h3: "text-2xl font-semibold",
-  h4: "text-xl",
-  h5: "text-lg",
-  p: "text-base",
-  small: "text-sm",
-};
-
-type TypographyProps = {
+export type TypographyProps = {
   variant?: keyof typeof TypographyVariants;
   className?: string;
   children?: ReactNode;

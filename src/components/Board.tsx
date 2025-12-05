@@ -20,7 +20,7 @@ const Board = () => {
       <SortableContext strategy={horizontalListSortingStrategy} items={colIds}>
         <div className="flex flex-1 gap-4">
           {cols.map((col) => (
-            <Column key={col.title} col={col} />
+            <Column key={col.id} col={col} />
           ))}
         </div>
         {activeTask && (
