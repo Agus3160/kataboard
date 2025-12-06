@@ -1,181 +1,86 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  PomodoroContext,
-  type PomodoroContextType,
-  type PomodoroSession,
-} from "./PomodoroContext";
-import { SamplePomodoroSession } from "@/constants/pomodoro";
+import { PomodoroContext, type PomodoroContextType } from "./PomodoroContext";
+import { PomodoroMessage, SamplePomodoroSession } from "@/constants/pomodoro";
 import { ChromeStorage } from "@/constants/chrome";
-import {
-  calcElapsed,
-  getSessionSecs,
-  sendNotificationMsg,
-} from "@/lib/pomodoro";
+import type { IChromeMessage, IPomodoroSession } from "@/types/definition";
 
 export type PomodoroProvider = {
   children: ReactNode;
 };
 
 export const PomodoroProvider = ({ children }: PomodoroProvider) => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [session, setSession] = useState<PomodoroSession>(
+  const [session, setSession] = useState<IPomodoroSession>(
     SamplePomodoroSession
   );
-
-  const sessionRef = useRef<PomodoroSession>(session);
-  const saveTimeoutRef = useRef<number | null>(null);
-  const intervalRef = useRef<number | null>(null);
+  const timerIntervalRef = useRef<number | null>(null);
 
   useEffect(() => {
-    sessionRef.current = session;
+    chrome.storage.local.onChanged.addListener((changes) => {
+      if (changes[ChromeStorage.Pomodoro]) {
+        const pomodoro = changes[ChromeStorage.Pomodoro].newValue;
+        setSession(pomodoro as IPomodoroSession);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!session || !session.isRunning) {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+      return;
+    }
+
+    if (timerIntervalRef.current || !session) return;
+
+    timerIntervalRef.current = window.setInterval(() => {
+      setSession((prev) => ({
+        ...prev,
+        remainingSec: prev.remainingSec - 1,
+      }));
+    }, 1000);
+
+    return () => {
+      if (timerIntervalRef.current) {
+        clearInterval(timerIntervalRef.current);
+        timerIntervalRef.current = null;
+      }
+    };
   }, [session]);
 
-  const updateTimer = () => {
-    setSession((session) => {
-      const newRemain = session.remainingSec - 1;
-      const currentType = session.sessionType;
-      if (newRemain <= 0) {
-        const sessionType = currentType === "focus" ? "break" : "focus";
-        const remainingSec = getSessionSecs(session, sessionType);
-        const copy: PomodoroSession = {
-          ...session,
-          sessionType,
-          remainingSec,
-          startTimestamp: Date.now(),
-        };
-        sendNotificationMsg(copy);
-        return copy;
-      }
-      return { ...session, remainingSec: newRemain };
-    });
+  const start = async () => {
+    const message: IChromeMessage = { type: PomodoroMessage.Start };
+    await chrome.runtime.sendMessage(message);
   };
 
-  useEffect(() => {
-    const init = async () => {
-      setIsLoading(true);
-      try {
-        const result = await chrome.storage.local.get(ChromeStorage.Pomodoro);
-        const pomodoro = result[ChromeStorage.Pomodoro] as PomodoroSession;
+  const pause = async () => {
+    const message: IChromeMessage = { type: PomodoroMessage.Pause };
+    await chrome.runtime.sendMessage(message);
+  };
 
-        if (!pomodoro) {
-          setSession(SamplePomodoroSession);
-          return;
-        }
+  const reset = async () => {
+    const message: IChromeMessage = { type: PomodoroMessage.Reset };
+    await chrome.runtime.sendMessage(message);
+  };
 
-        if (pomodoro.isRunning && pomodoro.startTimestamp) {
-          const elapsedMs = calcElapsed(pomodoro.startTimestamp);
-          const elapsed = Math.floor(elapsedMs / 1000);
-          const remainingSec = pomodoro.remainingSec - elapsed;
-
-          if (remainingSec <= 0) {
-            let rest = -remainingSec;
-            let currentType: PomodoroSession["sessionType"] =
-              pomodoro.sessionType === "focus" ? "break" : "focus";
-
-            while (rest >= getSessionSecs(pomodoro, currentType)) {
-              rest -= getSessionSecs(pomodoro, currentType);
-              currentType = currentType === "focus" ? "break" : "focus";
-            }
-
-            const secsOfCurrent = getSessionSecs(pomodoro, currentType);
-            const newRemaining = secsOfCurrent - rest;
-            const newStartTimestamp = Date.now() - rest * 1000;
-
-            setSession({
-              ...pomodoro,
-              sessionType: currentType,
-              remainingSec: newRemaining,
-              startTimestamp: newStartTimestamp,
-            });
-          } else {
-            setSession({ ...pomodoro, remainingSec });
-          }
-        } else {
-          setSession({ ...pomodoro });
-        }
-      } catch {
-        console.error("Failed to load pomodoro session");
-      } finally {
-        setIsLoading(false);
-      }
+  const setup = async (focusTimeMin: number, breakTimeMin: number) => {
+    const message: IChromeMessage<
+      Pick<IPomodoroSession, "focusTimeMin" | "breakTimeMin">
+    > = {
+      type: PomodoroMessage.Setup,
+      payload: { focusTimeMin, breakTimeMin },
     };
-    init();
-  }, []);
-
-  useEffect(() => {
-    if (saveTimeoutRef.current) return;
-    saveTimeoutRef.current = window.setTimeout(() => {
-      chrome.storage.local
-        .set({ [ChromeStorage.Pomodoro]: session })
-        .catch(() => {
-          console.error("Failed to save pomodoro session");
-        });
-    }, 500);
-    return () => {
-      if (!saveTimeoutRef.current) return;
-      clearTimeout(saveTimeoutRef.current);
-      saveTimeoutRef.current = null;
-    };
-  }, [session]);
-
-  useEffect(() => {
-    if (intervalRef.current) return;
-    intervalRef.current = window.setInterval(() => {
-      const session = sessionRef.current;
-      if (!session.isRunning) return;
-      updateTimer();
-    }, 1000);
-    return () => {
-      if (!intervalRef.current) return;
-      clearInterval(intervalRef.current!);
-      intervalRef.current = null;
-    };
-  }, []);
-
-  const reset = () =>
-    setSession((prev) => ({
-      ...prev,
-      isRunning: false,
-      sessionType: "focus",
-      startTimestamp: null,
-      remainingSec: prev.focusTimeMin * 60,
-    }));
-
-  const start = () =>
-    setSession((session) => ({
-      ...session,
-      isRunning: true,
-      startTimestamp: Date.now(),
-    }));
-
-  const pause = () =>
-    setSession((session) => ({
-      ...session,
-      isRunning: false,
-      startTimestamp: null,
-    }));
-
-  const setSessionSafe = (session: PomodoroSession) => {
-    try {
-      setSession({
-        ...session,
-        isRunning: false,
-        startTimestamp: null,
-        sessionType: "focus",
-        remainingSec: session.focusTimeMin * 60,
-      });
-    } catch {
-      console.error("Failed to set pomodoro session");
-    }
+    await chrome.runtime.sendMessage(message);
   };
 
   const value: PomodoroContextType = {
     session,
-    setSession: setSessionSafe,
+    setSession,
     reset,
     start,
     pause,
-    isLoading,
+    setup,
   };
 
   return (

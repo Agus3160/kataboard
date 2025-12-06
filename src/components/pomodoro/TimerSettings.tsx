@@ -4,20 +4,20 @@ import Typography from "../shared/Typography";
 import type { ChangeEvent } from "react";
 
 const TimerSettings = () => {
-  const { session, setSession } = usePomodoro();
+  const { session, setup } = usePomodoro();
 
   const onChangeFocus = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     const value = parseInt(val);
     if (value < 1 || isNaN(value)) return;
-    setSession({ ...session, focusTimeMin: value });
+    setup(value, session.breakTimeMin);
   };
 
   const onChangeBreak = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     const value = parseInt(val);
     if (value < 1 || isNaN(value)) return;
-    setSession({ ...session, breakTimeMin: value });
+    setup(session.focusTimeMin, value);
   };
 
   return (

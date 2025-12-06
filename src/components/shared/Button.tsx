@@ -14,13 +14,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ref={ref}
       className={cn(
         "flex gap-1.5 hover:cursor-pointer active:scale-90 duration-300",
-        children ? "px-3 py-2 items-center" : "p-2",
+        children ? "px-3 py-2 items-center text-base" : "p-2",
         ButtonVariants[variant],
         className
       )}
       {...props}
     >
-      {Icon && <Icon className={"size-4"} />}
+      {Icon && <Icon className={"size-5"} />}
       {children}
     </button>
   )

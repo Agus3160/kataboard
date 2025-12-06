@@ -1,13 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Mi SPA Extension",
-  "description": "Abre la SPA (index.html) en una nueva pestaña al hacer click en la extensión",
+  "name": "KataBoard",
+  "description": "Online Kanban Board + Pomodoro Timer to improve your productivity",
   "version": "1.0.0",
   "action": {
-    "default_title": "Abrir SPA",
+    "default_title": "Open KataBoard",
     "default_icon": {
       "16": "icons/icon16.png",
-      "48": "icons/icon32.png",
+      "32": "icons/icon32.png",
       "128": "icons/icon128.png"
     }
   },
@@ -17,6 +17,7 @@
   },
   "permissions": [
     "tabs",
+    "alarms",
     "storage",
     "notifications"
   ],

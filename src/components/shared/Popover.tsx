@@ -69,7 +69,7 @@ const Popover = ({
         <div
           ref={containerRef}
           className={cn(
-            "absolute shadow-lg",
+            "absolute shadow-lg z-9999",
             autoPosition && internalPosition === "top"
               ? "bottom-full mb-2 left-1/2 -translate-x-1/2"
               : "top-full mt-2 left-1/2 -translate-x-1/2",

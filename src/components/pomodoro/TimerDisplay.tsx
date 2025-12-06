@@ -1,5 +1,5 @@
 import { usePomodoro } from "@/context/pomodoro/usePomodoro";
-import { secToStr, getSessionSecs } from "@/lib/pomodoro";
+import { secToStr } from "@/lib/pomodoro";
 import ProgressCircle from "../shared/ProgressCircle";
 import Typography from "../shared/Typography";
 import { cn } from "@/lib/cn";
@@ -7,7 +7,10 @@ import { cn } from "@/lib/cn";
 const TimerDisplay = ({ size = 240 }: { size?: number }) => {
   const { session } = usePomodoro();
   const timeStr = secToStr(session.remainingSec);
-  const total = getSessionSecs(session, session.sessionType);
+  const total =
+    (session.sessionType === "focus"
+      ? session.focusTimeMin
+      : session.breakTimeMin) * 60;
 
   return (
     <ProgressCircle

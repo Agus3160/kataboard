@@ -6,10 +6,11 @@ import PomodoroPopover from "../pomodoro/PomodoroPopover";
 const Navbar = () => {
   const { title, setTitle } = useProjectContext();
   return (
-    <div className="flex flex-col  gap-2 px-8 pt-8">
+    <div className="flex justify-between items-center gap-4 p-6">
       <EditableTypography
         onChange={setTitle}
         textClassName="line-clamp-1"
+        className="w-full"
         value={title}
         variant="h1"
         type="text"

@@ -15,7 +15,24 @@ export interface IProject {
   cols: IColumn[];
 }
 
-export interface ChormeMessage<T = undefined> {
+type MessageWithoutPayload = {
+  type: string;
+};
+
+type MessageWithPayload<T> = {
   type: string;
   payload: T;
+};
+
+export type IChromeMessage<T = void> =
+  | MessageWithoutPayload
+  | MessageWithPayload<T>;
+
+export interface IPomodoroSession {
+  focusTimeMin: number;
+  breakTimeMin: number;
+  remainingSec: number;
+  isRunning: boolean;
+  sessionType: "focus" | "break";
+  startTimestamp: number | null;
 }

@@ -1,6 +1,6 @@
 export const ChromeStorage = {
   Project: "project",
   TasksId: "tasks",
-  ClosId: "columns",
+  ColsId: "columns",
   Pomodoro: "pomodoro",
 } as const;
