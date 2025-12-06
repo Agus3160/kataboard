@@ -74,7 +74,7 @@ const Column = ({ col }: ColumnProps) => {
       <div
         ref={setDroppableRef}
         className={
-          "space-y-4 overflow-y-auto mt-2 p-2 min-h-12 dutation-300 max-h-[calc(100vh-280px)]"
+          "space-y-4 overflow-y-auto mt-2 p-2 min-h-12 dutation-300 max-h-[calc(100vh-360px)]"
         }
       >
         <SortableContext

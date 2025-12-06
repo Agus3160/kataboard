@@ -1,4 +1,5 @@
-import { useProjectContext } from "@/context/useProjectContext";
+import { useProjectContext } from "@/context/project/useProjectContext";
+
 import { idCounter } from "../idCounter";
 
 export const useAddTask = () => {

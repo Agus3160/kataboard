@@ -1,10 +1,13 @@
+import { PomodoroProvider } from "./context/pomodoro/PomodoroProvider.tsx";
+import { ProjectProvider } from "./context/project/ProjectProvider.tsx";
 import { createRoot } from "react-dom/client";
-import "./index.css";
 import App from "./App.tsx";
-import { ProjectProvider } from "./context/ProjectProvider.tsx";
+import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
   <ProjectProvider>
-    <App />
+    <PomodoroProvider>
+      <App />
+    </PomodoroProvider>
   </ProjectProvider>
 );

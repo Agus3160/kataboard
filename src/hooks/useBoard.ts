@@ -1,4 +1,4 @@
-import { useProjectContext } from "@/context/useProjectContext";
+import { useProjectContext } from "@/context/project/useProjectContext";
 import { parseDndId, toDndId } from "@/lib/dnd";
 import type { ITask } from "@/types/definition";
 import type { DragStartEvent, DragOverEvent } from "@dnd-kit/core";

@@ -1,4 +1,4 @@
-import { useProjectContext } from "@/context/useProjectContext";
+import { useProjectContext } from "@/context/project/useProjectContext";
 import { resetIdCounter } from "../idCounter";
 
 export const useDelAllTasks = () => {

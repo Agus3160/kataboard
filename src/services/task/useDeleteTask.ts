@@ -1,4 +1,4 @@
-import { useProjectContext } from "@/context/useProjectContext";
+import { useProjectContext } from "@/context/project/useProjectContext";
 
 export const useDeleteTask = () => {
   const { setCols } = useProjectContext();
