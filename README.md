@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Kataboard (Kanban + Pomodoro Extension)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kataboard is a **Chromium browser extension** that combines a **simple Kanban board** with full **drag-and-drop support** (for both tasks and columns) and an integrated **Pomodoro timer** that uses the **Chrome Alarms API** to send notifications even while the extension runs in the background.
 
-Currently, two official plugins are available:
+Designed to be lightweight, fast, and fully local (no backend required).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![banner](https://private-user-images.githubusercontent.com/115951412/523378458-6e3684b2-fbcf-4d1a-be17-d7d0fc0c7a91.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NjUwNTg4OTUsIm5iZiI6MTc2NTA1ODU5NSwicGF0aCI6Ii8xMTU5NTE0MTIvNTIzMzc4NDU4LTZlMzY4NGIyLWZiY2YtNGQxYS1iZTE3LWQ3ZDBmYzBjN2E5MS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUxMjA2JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MTIwNlQyMjAzMTVaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1hYjU5MWZiYTVmMmY2OGIxNjY5ZDQ4ZjZjOWJkM2RlYTY0MGEwMTRkN2ZmOWQ4ZDJkMGE3ZTE1YTY2MzY2NDRiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.8JajbrjQQm2WAX3yJtfAwaawP1GLxxg9zfYmNtT4_Vc)
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+### 🗂️ Kanban Board
 
-## Expanding the ESLint configuration
+* Create, edit, and delete tasks
+* Create and reorganize columns
+* State persisted in Chrome local storage
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### ⏱️ Pomodoro Timer
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Customizable cycles (pomodoro, break, focus)
+* Notifications using `chrome.alarms`
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### ⚡ Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* **React + Vite**
+* **Tailwind CSS**
+* **DnD Kit**
+* **Lucide React**
+* **Manifest v3**
+
+## 📦 Installation (Development Mode)
+
+```bash
+git clone https://github.com/Agus3160/kataboard.git
+cd your-repo
+pnpm install
+pnpm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then load the extension from `chrome://extensions/` using **Load unpacked** and selecting the `dist/` folder.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📜 License
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+MIT License.
