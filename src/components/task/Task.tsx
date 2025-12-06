@@ -7,8 +7,8 @@ import { GripIcon, Trash2Icon } from "lucide-react";
 import type { ITask } from "@/types/definition";
 import EditableTypography from "../shared/EditableTypography";
 import { useState } from "react";
-import { useEditTaskContent } from "@/services/useEditTaskContent";
-import { useDeleteTask } from "@/services/useDeleteTask";
+import { useEditTaskContent } from "@/services/task/useEditTaskContent";
+import { useDeleteTask } from "@/services/task/useDeleteTask";
 
 type TaskProps = {
   task: ITask;

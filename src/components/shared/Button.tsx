@@ -19,7 +19,7 @@ const Button = ({
     <button
       className={cn(
         "flex gap-1.5 hover:cursor-pointer active:scale-90 duration-300",
-        children ? "px-2 py-1 items-center" : "p-1.5",
+        children ? "px-4 py-2 items-center" : "p-2",
         ButtonVariants[variant],
         className
       )}

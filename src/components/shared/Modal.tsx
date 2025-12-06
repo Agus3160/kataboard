@@ -11,7 +11,6 @@ type ModalProps = {
 
 const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="absolute inset-0" onClick={onClose} />
@@ -20,7 +19,7 @@ const Modal = ({ isOpen, onClose, title, children }: ModalProps) => {
         {children}
         <X
           onClick={onClose}
-          className="absolute top-2 right-2 text-neutral-600 hover:text-red-400 hover:cursor-pointer"
+          className="absolute size-4 top-2 right-2 text-neutral-600 hover:text-red-400 hover:cursor-pointer"
         />
       </div>
     </div>

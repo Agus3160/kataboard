@@ -7,3 +7,8 @@ export const idCounter = async (type: "task" | "column") => {
   chrome.storage.local.set({ [key]: id });
   return id;
 };
+
+export const resetIdCounter = async (type: "task" | "column", val = 0) => {
+  const key = type === "task" ? ChromeStorage.TasksId : ChromeStorage.ClosId;
+  chrome.storage.local.set({ [key]: val });
+};

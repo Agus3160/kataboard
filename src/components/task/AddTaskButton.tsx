@@ -1,7 +1,7 @@
 import { PlusIcon } from "lucide-react";
 import Button from "../shared/Button";
 import Textarea from "../shared/Textarea";
-import { useAddTask } from "@/services/useAddTask";
+import { useAddTask } from "@/services/task/useAddTask";
 import {
   useCallback,
   useEffect,

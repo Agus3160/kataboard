@@ -1,4 +1,4 @@
-import Column from "./Column";
+import Column from "./column/Column";
 import {
   horizontalListSortingStrategy,
   SortableContext,
@@ -6,6 +6,7 @@ import {
 import { DndContext, DragOverlay } from "@dnd-kit/core";
 import Task from "./task/Task";
 import { useBoard } from "@/hooks/useBoard";
+import AddColumn from "./column/AddColumn";
 
 const Board = () => {
   const { cols, colIds, activeTask, onDragEnd, onDragOver, onDragStart } =
@@ -18,10 +19,11 @@ const Board = () => {
       onDragStart={onDragStart}
     >
       <SortableContext strategy={horizontalListSortingStrategy} items={colIds}>
-        <div className="flex flex-1 gap-4">
+        <div className="flex px-8 flex-1 gap-4 h-full overflow-x-auto">
           {cols.map((col) => (
             <Column key={col.id} col={col} />
           ))}
+          <AddColumn />
         </div>
         {activeTask && (
           <DragOverlay>
