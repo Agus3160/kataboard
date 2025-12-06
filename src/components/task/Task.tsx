@@ -44,8 +44,9 @@ const Task = ({ task }: TaskProps) => {
       style={style}
       {...attributes}
       className={cn(
-        "p-2 shadow hover:shadow-md border-2 bg-neutral-800 hover:cursor-pointer hover:border-blue-500/50 border-neutral-600/50 rounded",
-        isDragging && "opacity-50"
+        "p-2 shadow hover:shadow-md border-2 bg-neutral-800 hover:cursor-pointer hover:border-blue-500/50 rounded",
+        isEdit ? "border-blue-500/50" : "border-neutral-600/50",
+        isDragging && "opacity-50",
       )}
     >
       <div className="flex flex-col gap-4">
@@ -58,7 +59,7 @@ const Task = ({ task }: TaskProps) => {
           )}
           {!isEdit && (
             <button className="hover:cursor-grab" {...listeners}>
-              <GripIcon className="size-3" />
+              <GripIcon className="size-4" />
             </button>
           )}
         </div>

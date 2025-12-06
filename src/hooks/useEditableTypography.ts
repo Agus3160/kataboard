@@ -1,5 +1,12 @@
 import type { EditableTypographyProps } from "@/components/shared/EditableTypography";
-import { useState, useRef, useEffect, type ChangeEvent } from "react";
+import { isEnter } from "@/lib/keyboard";
+import {
+  useState,
+  useRef,
+  useEffect,
+  type ChangeEvent,
+  type KeyboardEvent,
+} from "react";
 
 export const useEditableTyporaphy = ({
   value,
@@ -37,11 +44,25 @@ export const useEditableTyporaphy = ({
     }
   }, [value, isOpen, type]);
 
+  const onKeyDown = (
+    e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (isEnter(e)) onBlur();
+  };
+
   const onChangeHandler = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
     onChange?.(e.target.value);
   };
 
-  return { isOpen, isEmpty, onOpenEdit, onBlur, textareaRef, onChangeHandler };
+  return {
+    isOpen,
+    isEmpty,
+    onOpenEdit,
+    onBlur,
+    onKeyDown,
+    textareaRef,
+    onChangeHandler,
+  };
 };

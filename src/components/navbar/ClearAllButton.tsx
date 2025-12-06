@@ -22,7 +22,7 @@ const ClearAllButton = () => {
         Clear All
       </Button>
       <Modal isOpen={open} onClose={onClose} title="Clear All Tasks?">
-        <div className="mt-4 flex w-72 flex-col gap-4">
+        <div className="flex w-72 flex-col gap-4">
           <Typography variant="small" className="text-neutral-500">
             Are you sure you want to clear all tasks from all columns? This
             action cannot be undone and the counter will be reset.

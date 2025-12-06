@@ -19,7 +19,7 @@ const Board = () => {
       onDragStart={onDragStart}
     >
       <SortableContext strategy={horizontalListSortingStrategy} items={colIds}>
-        <div className="flex px-8 flex-1 gap-4 h-full overflow-x-auto">
+        <div className="flex px-8 flex-1 gap-4 h-full overflow-y-visible overflow-x-auto">
           {cols.map((col) => (
             <Column key={col.id} col={col} />
           ))}

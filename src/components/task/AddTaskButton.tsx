@@ -10,6 +10,7 @@ import {
   type ChangeEvent,
 } from "react";
 import type { IColumn } from "@/types/definition";
+import { cn } from "@/lib/cn";
 
 type AddTaskButtonProps = {
   col: IColumn;
@@ -19,11 +20,14 @@ const AddTaskButton = ({ col }: AddTaskButtonProps) => {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState<"top" | "bottom">("top");
+
+  const { addTask } = useAddTask();
 
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) =>
     setContent(e.target.value);
-  const { addTask } = useAddTask();
 
   const onSubmit = useCallback(async () => {
     setIsLoading(true);
@@ -33,7 +37,16 @@ const AddTaskButton = ({ col }: AddTaskButtonProps) => {
     setIsLoading(false);
   }, [addTask, col.id, content]);
 
-  const onOpen = () => setOpen(true);
+  const onOpen = () => {
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const spaceAbove = rect.top;
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceAbove < spaceBelow) setPosition("bottom");
+      else setPosition("top");
+    }
+    setOpen(true);
+  };
 
   useEffect(() => {
     const handleClickOutside = async (event: MouseEvent) => {
@@ -50,12 +63,21 @@ const AddTaskButton = ({ col }: AddTaskButtonProps) => {
   }, [content, onSubmit]);
 
   return (
-    <div className="relative">
-      <Button onClick={onOpen} variant="default" icon={PlusIcon} />
+    <div className="relative flex gap-2 items-center">
+      <Button
+        ref={buttonRef}
+        onClick={onOpen}
+        variant="default"
+        icon={PlusIcon}
+      />
+
       {(open || isLoading) && (
         <div
           ref={containerRef}
-          className="absolute bottom-full mb-2 w-56 shadow-lg left-1/2 -translate-x-1/2"
+          className={cn(
+            "absolute w-64 shadow-lg left-1/2 -translate-x-1/2",
+            position === "top" ? "bottom-full mb-2" : "top-full mt-2"
+          )}
         >
           <Textarea
             withBorder
@@ -63,7 +85,7 @@ const AddTaskButton = ({ col }: AddTaskButtonProps) => {
             value={content}
             onChange={onChange}
             className="w-full h-32"
-            placeholder="Please enter your task and add it..."
+            placeholder="Please enter your task's content and add it..."
           />
         </div>
       )}

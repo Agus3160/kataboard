@@ -27,14 +27,21 @@ const EditableTypography = ({
   onEditingChange,
   ...props
 }: EditableTypographyProps) => {
-  const { isOpen, isEmpty, onOpenEdit, onBlur, onChangeHandler, textareaRef } =
-    useEditableTyporaphy({
-      value,
-      isEditing,
-      onChange,
-      onEditingChange,
-      type,
-    });
+  const {
+    isOpen,
+    isEmpty,
+    textareaRef,
+    onBlur,
+    onKeyDown,
+    onOpenEdit,
+    onChangeHandler,
+  } = useEditableTyporaphy({
+    type,
+    value,
+    isEditing,
+    onChange,
+    onEditingChange,
+  });
 
   if (!isOpen && !isEmpty)
     return (
@@ -52,6 +59,7 @@ const EditableTypography = ({
       onBlur={onBlur}
       variant={variant}
       className={className}
+      onKeyDown={onKeyDown}
       withBorder={withBorder}
       placeholder={placeholder}
       onChange={onChangeHandler}
@@ -63,6 +71,7 @@ const EditableTypography = ({
       onBlur={onBlur}
       ref={textareaRef}
       variant={variant}
+      onKeyDown={onKeyDown}
       className={className}
       withBorder={withBorder}
       placeholder={placeholder}

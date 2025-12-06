@@ -44,7 +44,7 @@ const Column = ({ col }: ColumnProps) => {
     >
       <div
         title={col.title}
-        className="p-3 rounded-t line-clamp-1 items-center bg-neutral-700 flex justify-between"
+        className="p-3 rounded line-clamp-1 items-center bg-neutral-700 flex justify-between"
       >
         <div className="flex gap-1 items-center">
           <button
@@ -53,6 +53,9 @@ const Column = ({ col }: ColumnProps) => {
           >
             <GripIcon className="size-4" />
           </button>
+          <div className="w-7 h-6 flex items-center font-bold justify-center rounded-full bg-neutral-900">
+            {col.tasks.length}
+          </div>
           <EditableTypography
             placeholder="Column Title..."
             onChange={onEditColumn}
@@ -71,7 +74,7 @@ const Column = ({ col }: ColumnProps) => {
       <div
         ref={setDroppableRef}
         className={
-          "space-y-4 overflow-y-auto rounded-lg bg-neutral-900 p-3 min-h-24 dutation-300 max-h-[calc(100vh-280px)]"
+          "space-y-4 overflow-y-auto mt-2 p-2 min-h-12 dutation-300 max-h-[calc(100vh-280px)]"
         }
       >
         <SortableContext
@@ -83,7 +86,7 @@ const Column = ({ col }: ColumnProps) => {
           ))}
         </SortableContext>
       </div>
-      <div className="p-2 flex justify-center bg-neutral-900 rounded-b">
+      <div className="flex mt-4 justify-center">
         <AddTaskButton col={col} />
       </div>
     </div>

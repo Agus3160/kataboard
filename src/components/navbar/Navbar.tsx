@@ -7,7 +7,7 @@ import { useProjectContext } from "@/context/useProjectContext";
 const Navbar = () => {
   const { title, setTitle } = useProjectContext();
   return (
-    <div className="space-y-4 px-8 py-4">
+    <div className="flex flex-col gap-2 px-8 py-4">
       <EditableTypography
         onChange={setTitle}
         value={title}
