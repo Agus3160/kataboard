@@ -14,12 +14,8 @@ const PomodoroPopover = () => {
     <Popover
       open={open}
       setOpen={setOpen}
-      position="bottom"
-      trigger={
-        <Button  variant="secondary" icon={TimerIcon}>
-          Pomodoro
-        </Button>
-      }
+      className="top-full left-1/2 -translate-x-3/4"
+      trigger={<Button variant="secondary" icon={TimerIcon} />}
     >
       <div className="flex relative p-6 bg-neutral-800 rounded w-72 flex-col gap-4 justify-center items-center">
         <TimerDisplay size={200} />

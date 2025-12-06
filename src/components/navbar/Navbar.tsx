@@ -1,6 +1,4 @@
-import { TagIcon } from "lucide-react";
 import ClearAllButton from "./ClearAllButton";
-import Button from "../shared/Button";
 import EditableTypography from "../shared/EditableTypography";
 import { useProjectContext } from "@/context/project/useProjectContext";
 import PomodoroPopover from "../pomodoro/PomodoroPopover";
@@ -8,9 +6,10 @@ import PomodoroPopover from "../pomodoro/PomodoroPopover";
 const Navbar = () => {
   const { title, setTitle } = useProjectContext();
   return (
-    <div className="flex flex-col gap-2 px-8 pt-4">
+    <div className="flex flex-col  gap-2 px-8 pt-8">
       <EditableTypography
         onChange={setTitle}
+        textClassName="line-clamp-1"
         value={title}
         variant="h1"
         type="text"
@@ -18,9 +17,6 @@ const Navbar = () => {
       />
       <div className="flex justify-end gap-2">
         <PomodoroPopover />
-        <Button variant="default" icon={TagIcon}>
-          Tags
-        </Button>
         <ClearAllButton />
       </div>
     </div>

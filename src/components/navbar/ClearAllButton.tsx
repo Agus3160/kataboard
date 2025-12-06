@@ -18,9 +18,7 @@ const ClearAllButton = () => {
 
   return (
     <>
-      <Button onClick={onOpen} variant="danger" icon={Trash2Icon}>
-        Clear All
-      </Button>
+      <Button onClick={onOpen} variant="danger" icon={Trash2Icon} />
       <Modal isOpen={open} onClose={onClose} title="Clear All Tasks?">
         <div className="flex w-72 flex-col gap-4">
           <Typography variant="small" className="text-neutral-500">

@@ -3,11 +3,13 @@ import type { TypographyProps } from "./Typography";
 import Typography from "./Typography";
 import Textarea from "./Textarea";
 import Input from "./Input";
+import { cn } from "@/lib/cn";
 
 export type EditableTypographyProps = {
   isEditing?: boolean;
   onEditingChange?: (isEditing: boolean) => void;
   value?: string;
+  textClassName?: string;
   className?: string;
   placeholder?: string;
   onChange?: (value: string) => void;
@@ -22,6 +24,7 @@ const EditableTypography = ({
   withBorder = false,
   type = "text",
   variant = "p",
+  textClassName,
   onChange,
   isEditing,
   onEditingChange,
@@ -46,7 +49,11 @@ const EditableTypography = ({
   if (!isOpen && !isEmpty)
     return (
       <span onDoubleClick={onOpenEdit}>
-        <Typography className="p-1" variant={variant} {...props}>
+        <Typography
+          className={cn("p-1", textClassName)}
+          variant={variant}
+          {...props}
+        >
           {value}
         </Typography>
       </span>
