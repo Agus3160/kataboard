@@ -4,14 +4,21 @@
   "description": "Abre la SPA (index.html) en una nueva pestaña al hacer click en la extensión",
   "version": "1.0.0",
   "action": {
-    "default_title": "Abrir SPA"
+    "default_title": "Abrir SPA",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon32.png",
+      "128": "icons/icon128.png"
+    }
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "host_permissions": [],
   "web_accessible_resources": [

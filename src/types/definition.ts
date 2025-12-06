@@ -14,3 +14,8 @@ export interface IProject {
   title: string;
   cols: IColumn[];
 }
+
+export interface ChormeMessage<T = undefined> {
+  type: string;
+  payload: T;
+}

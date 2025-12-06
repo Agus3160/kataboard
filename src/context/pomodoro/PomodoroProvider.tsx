@@ -6,7 +6,11 @@ import {
 } from "./PomodoroContext";
 import { SamplePomodoroSession } from "@/constants/pomodoro";
 import { ChromeStorage } from "@/constants/chrome";
-import { calcElapsed, getSessionSecs } from "@/lib/pomodoro";
+import {
+  calcElapsed,
+  getSessionSecs,
+  sendNotificationMsg,
+} from "@/lib/pomodoro";
 
 export type PomodoroProvider = {
   children: ReactNode;
@@ -33,12 +37,14 @@ export const PomodoroProvider = ({ children }: PomodoroProvider) => {
       if (newRemain <= 0) {
         const sessionType = currentType === "focus" ? "break" : "focus";
         const remainingSec = getSessionSecs(session, sessionType);
-        return {
+        const copy: PomodoroSession = {
           ...session,
           sessionType,
           remainingSec,
           startTimestamp: Date.now(),
         };
+        sendNotificationMsg(copy);
+        return copy;
       }
       return { ...session, remainingSec: newRemain };
     });
