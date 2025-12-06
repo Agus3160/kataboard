@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Mi SPA Extension",
+  "description": "Abre la SPA (index.html) en una nueva pestaña al hacer click en la extensión",
+  "version": "1.0.0",
+  "action": {
+    "default_title": "Abrir SPA"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [],
+  "web_accessible_resources": [
+    {
+      "resources": ["index.html", "assets/*", "icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "minimum_chrome_version": "88"
+}

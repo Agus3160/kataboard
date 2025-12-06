@@ -7,7 +7,7 @@ import { TagIcon, Trash2 } from "lucide-react";
 function App() {
   const { title, setTitle } = useProjectContext();
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-8 flex flex-col gap-6 h-screen custom-scroll">
       <div className="space-y-2">
         <EditableTypography
           onChange={setTitle}

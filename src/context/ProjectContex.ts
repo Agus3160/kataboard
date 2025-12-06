@@ -7,6 +7,8 @@ export type ProjectContextType = {
 
   cols: IColumn[];
   setCols: Dispatch<SetStateAction<IColumn[]>>;
+
+  isLoading: boolean;
 };
 
 export const ProjectContext = createContext<ProjectContextType | null>(null);

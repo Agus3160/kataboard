@@ -9,3 +9,8 @@ export interface IColumn {
   title: string;
   tasks: ITask[];
 }
+
+export interface IProject {
+  title: string;
+  cols: IColumn[];
+}

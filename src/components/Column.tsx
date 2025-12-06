@@ -1,4 +1,4 @@
-import Task from "./Task";
+import Task from "./task/Task";
 import { CSS } from "@dnd-kit/utilities";
 import {
   useSortable,
@@ -8,10 +8,10 @@ import {
 import type { IColumn } from "@/types/definition";
 import { toDndId } from "@/lib/dnd";
 import { useDroppable } from "@dnd-kit/core";
-import Button from "./shared/Button";
-import { GripIcon, PlusIcon } from "lucide-react";
+import { GripIcon } from "lucide-react";
 import EditableTypography from "./shared/EditableTypography";
 import { useProjectContext } from "@/context/useProjectContext";
+import AddTaskButton from "./task/AddTaskButton";
 
 type ColumnProps = {
   col: IColumn;
@@ -21,7 +21,9 @@ const Column = ({ col }: ColumnProps) => {
   const { setNodeRef: setDroppableRef } = useDroppable({
     id: toDndId(col.id, "taskContainer"),
   });
+
   const { setCols } = useProjectContext();
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: toDndId(col.id, "col") });
 
@@ -41,7 +43,7 @@ const Column = ({ col }: ColumnProps) => {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className="w-76 rounded bg-background shadow"
+      className="w-85 rounded bg-background shadow"
     >
       <div
         title={col.title}
@@ -65,7 +67,7 @@ const Column = ({ col }: ColumnProps) => {
       </div>
       <div
         ref={setDroppableRef}
-        className={"space-y-4 bg-neutral-900 p-4 min-h-24 dutation-300"}
+        className={"space-y-4 overflow-y-auto bg-neutral-900 p-3 min-h-24 dutation-300 max-h-[calc(100vh-280px)]"}
       >
         <SortableContext
           items={col.tasks}
@@ -77,7 +79,7 @@ const Column = ({ col }: ColumnProps) => {
         </SortableContext>
       </div>
       <div className="p-2 flex justify-center bg-neutral-900 rounded-b">
-        <Button icon={PlusIcon} />
+        <AddTaskButton col={col} />
       </div>
     </div>
   );

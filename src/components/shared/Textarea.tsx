@@ -16,7 +16,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         className={cn(
           "w-full p-1 rounded resize-none",
           withBorder
-            ? "outline-neutral-200 bg-neutral-900 outline-2"
+            ? "outline-neutral-400/50 bg-neutral-900 outline-2"
             : "outline-none",
           TypographyVariants[variant || "p"],
           className

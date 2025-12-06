@@ -4,7 +4,7 @@ import {
   SortableContext,
 } from "@dnd-kit/sortable";
 import { DndContext, DragOverlay } from "@dnd-kit/core";
-import Task from "./Task";
+import Task from "./task/Task";
 import { useBoard } from "@/hooks/useBoard";
 
 const Board = () => {

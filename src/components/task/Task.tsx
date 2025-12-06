@@ -1,30 +1,25 @@
-import Typography from "./shared/Typography";
+import Typography from "../shared/Typography";
 import { toDndId } from "@/lib/dnd";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { cn } from "@/lib/cn";
-import { GripIcon } from "lucide-react";
+import { GripIcon, Trash2Icon } from "lucide-react";
 import type { ITask } from "@/types/definition";
-import { useProjectContext } from "@/context/useProjectContext";
-import EditableTypography from "./shared/EditableTypography";
+import EditableTypography from "../shared/EditableTypography";
 import { useState } from "react";
+import { useEditTaskContent } from "@/services/useEditTaskContent";
+import { useDeleteTask } from "@/services/useDeleteTask";
 
 type TaskProps = {
   task: ITask;
 };
 
 const Task = ({ task }: TaskProps) => {
-  const { setCols } = useProjectContext();
   const [isEdit, setIsEdit] = useState(false);
-  const onChangeTaskContent = (val: string) => {
-    setCols((prev) => {
-      const copy = structuredClone(prev);
-      const col = copy.find((c) => c.id === task.colId)!;
-      const taskIndex = col.tasks.findIndex((t) => t.id === task.id)!;
-      col.tasks[taskIndex].content = val;
-      return copy;
-    });
-  };
+  const { editTaskConent } = useEditTaskContent();
+  const { deleteTask } = useDeleteTask();
+  const onEditTaskContent = (val: string) => editTaskConent(val, task.id);
+  const onDeleteTask = () => deleteTask(task.id);
 
   const {
     attributes,
@@ -53,15 +48,23 @@ const Task = ({ task }: TaskProps) => {
         isDragging && "opacity-50"
       )}
     >
-      <div className="flex gap-4">
-        {!isEdit && (
-          <button className="hover:cursor-grab" {...listeners}>
-            <GripIcon className="size-3" />
-          </button>
-        )}
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between items-center">
+          {isEdit && (
+            <Trash2Icon
+              onClick={onDeleteTask}
+              className="size-4 hover:cursor-pointer text-neutral-500 hover:text-red-400"
+            />
+          )}
+          {!isEdit && (
+            <button className="hover:cursor-grab" {...listeners}>
+              <GripIcon className="size-3" />
+            </button>
+          )}
+        </div>
         <div className="flex-1">
           <EditableTypography
-            onChange={onChangeTaskContent}
+            onChange={onEditTaskContent}
             onEditingChange={setIsEdit}
             isEditing={isEdit}
             value={task.content}

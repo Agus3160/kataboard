@@ -23,10 +23,10 @@ export const useEditableTyporaphy = ({
   };
 
   const onBlur = () => {
-    if (!isEmpty) {
-      if (isEditing === undefined) setInternalIsOpen(false);
-      onEditingChange?.(false);
+    if (!isEmpty && isEditing === undefined) {
+      setInternalIsOpen(false);
     }
+    onEditingChange?.(false);
   };
 
   useEffect(() => {
