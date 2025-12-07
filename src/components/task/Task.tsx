@@ -46,22 +46,18 @@ const Task = ({ task }: TaskProps) => {
       className={cn(
         "p-2 shadow hover:shadow-md border-2 bg-neutral-800 hover:cursor-pointer hover:border-blue-500/50 rounded",
         isEdit ? "border-blue-500/50" : "border-neutral-600/50",
-        isDragging && "opacity-50",
+        isDragging && "opacity-50"
       )}
     >
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between items-center">
-          {isEdit && (
-            <Trash2Icon
-              onClick={onDeleteTask}
-              className="size-4 hover:cursor-pointer text-neutral-500 hover:text-red-400"
-            />
-          )}
-          {!isEdit && (
-            <button className="hover:cursor-grab" {...listeners}>
-              <GripIcon className="size-4" />
-            </button>
-          )}
+        <div className="flex justify-between text-neutral-500 items-center">
+          <button className="hover:cursor-grab" {...listeners}>
+            <GripIcon className="size-4" />
+          </button>
+          <Trash2Icon
+            onClick={onDeleteTask}
+            className="size-4 hover:cursor-pointer hover:text-red-400"
+          />
         </div>
         <div className="flex-1">
           <EditableTypography
