@@ -24,6 +24,14 @@ export const PomodoroProvider = ({ children }: PomodoroProvider) => {
   }, []);
 
   useEffect(() => {
+    chrome.storage.local.get([ChromeStorage.Pomodoro], (result) => {
+      if (result[ChromeStorage.Pomodoro]) {
+        setSession(result[ChromeStorage.Pomodoro] as IPomodoroSession);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     if (!session || !session.isRunning) {
       if (timerIntervalRef.current) {
         clearInterval(timerIntervalRef.current);
